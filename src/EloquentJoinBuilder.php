@@ -117,6 +117,7 @@ class EloquentJoinBuilder extends Builder
 
     public function orderByJoin($column, $direction = 'asc', $aggregateMethod = null)
     {
+        $direction = strtolower($direction);
         $this->checkDirection($direction);
         $dotPos = strrpos($column, '.');
 
