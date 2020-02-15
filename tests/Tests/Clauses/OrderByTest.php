@@ -2,6 +2,7 @@
 
 namespace Fico7489\Laravel\EloquentJoin\Tests\Tests\Clauses;
 
+use Fico7489\Laravel\EloquentJoin\Exceptions\InvalidDirection;
 use Fico7489\Laravel\EloquentJoin\Tests\Models\Order;
 use Fico7489\Laravel\EloquentJoin\Tests\TestCase;
 
@@ -38,5 +39,13 @@ class OrderByTest extends TestCase
             order by sort asc, sort2 desc';
 
         $this->assertQueryMatches($queryTest, $this->fetchQuery());
+    }
+
+    public function testOrderByInvalidDirection()
+    {
+        $this->expectException(InvalidDirection::class);
+        Order::joinRelations('seller')
+            ->orderByJoin('seller.id', ';DROP TABLE orders;--')
+            ->get();
     }
 }
